@@ -7,6 +7,7 @@
 
 import React from 'react';
 import type {PropsWithChildren} from 'react';
+import { useState,useContext , createContext } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -25,7 +26,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Main from './Navigation/Main';
 import Login from './Navigation/Login';
-import Profile from './Navigation/Screens/Profile';
+import AddExpenses from './Navigation/Screens/AddExpenses';
+import EditExpenses from './Navigation/Screens/EditExpenses';
+import UserContext from './Context/Context';
+
 
 
 type SectionProps = PropsWithChildren<{
@@ -34,6 +38,8 @@ type SectionProps = PropsWithChildren<{
 
 const Stack=createNativeStackNavigator()
 
+//const UserContext = createContext({})
+
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -41,8 +47,9 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const [currentUser,setCurrentUser] = useState('')
   return (
-
+    <UserContext.Provider value={{currentUser,setCurrentUser}} >
       <NavigationContainer>
         <Stack.Navigator>
          
@@ -59,13 +66,18 @@ function App(): React.JSX.Element {
              options={{headerTitle:"App"}}
           />
           <Stack.Screen
-            name="Profile"
-            component={Profile}
+            name="AddExpenses"
+            component={AddExpenses}
+          />
+          <Stack.Screen
+             name="EditExpenses"
+             component={EditExpenses}
           />
             
           
         </Stack.Navigator>
       </NavigationContainer>
+      </UserContext.Provider>
       
       
    
@@ -91,4 +103,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default App

@@ -2,11 +2,38 @@ import React from "react";
 import { Button , View,TextInput , StyleSheet } from "react-native";
 import { useState } from "react";
 import { Text } from "react-native";
+import { useContext } from "react";
+import UserContext from "../Context/Context";
+import { useEffect } from "react";
+import axios from "axios";
+
+
+
+let users;
+
+async function fetchUsersData(){
+  axios.get('https://expensetracker-bb0b9-default-rtdb.firebaseio.com/users.json')
+      .then((res)=>{
+        let ans=res.data
+        //console.log(typeof(users))
+        //console.log(res.data)
+        users=Object.entries(ans).map(entry=>entry[1])
+        console.log(users)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+}
+fetchUsersData()
 
 export default function LoginForm({props}){
+ 
   const [email,setEmail] =useState('')
   const [password,setPassword] =useState('')
   const [errors,setErrors] = useState({email:"",password:""})
+  const [invalid,setInvalid] = useState()
+  const {currentUser,setCurrentUser} = useContext(UserContext)
+  
   // validate , submit , change
   function validate(){
     let error={email:"",password:""}
@@ -20,25 +47,48 @@ export default function LoginForm({props}){
     return (error.email.length === 0 && error.password.length === 0)
   }
   function submit(){
-    let f=validate()
-    if(f){
+    let isValid=validate()
+    if(isValid){
       setEmail("")
       setPassword("")
       setErrors({})
-      return 1
+      let userValid=0;
+      users.map((user)=>{
+        if(user.email === email && user.password === password){
+          userValid=1;
+        }
+      })
+      if(userValid){
+        setCurrentUser(email)
+        setInvalid('')
+        return 1
+
+      }else{
+        setInvalid('email or password is incorrect')
+      }
+
+      
     }
   }
   function changeEmail(text){
     setEmail(text)
     if(text.length !== 0){
       setErrors({...errors,email:""})
+      setInvalid()
     }
   }
   function changePassword(pass){
     setPassword(pass)
     if(pass.length !== 0) {
       setErrors({...errors,password:""})
+      setInvalid()
     }
+  }
+  function handleSubmit(){
+    if(submit()){
+      props.navigation.navigate('Main')
+    }
+
   }
     return(
         <View>
@@ -59,11 +109,8 @@ export default function LoginForm({props}){
                 onChangeText={(pass)=>changePassword(pass)}
              />
              {errors.password ? <Text style={styles.error}>{errors.password}</Text>: null}
-             <Button title="submit" onPress={()=>{
-              if(submit()){
-                props.navigation.navigate('Main')
-              }
-             }}/>
+             {invalid ? <Text style={styles.error}>{invalid}</Text> : null}
+             <Button title="submit" onPress={handleSubmit}/>
 
 
         </View>
