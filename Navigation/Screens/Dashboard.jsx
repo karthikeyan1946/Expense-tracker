@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import {Image, View,Text ,Button} from "react-native";
-import UserContext from "../../Context/Context";
+import UserContext from "../../Context/UserContext";
 
 
 

@@ -3,7 +3,7 @@ import { Button , View,TextInput , StyleSheet } from "react-native";
 import { useState } from "react";
 import { Text } from "react-native";
 import { useContext } from "react";
-import UserContext from "../Context/Context";
+import UserContext from "../Context/UserContext";
 import { useEffect } from "react";
 import axios from "axios";
 
@@ -18,7 +18,7 @@ async function fetchUsersData(){
         //console.log(typeof(users))
         //console.log(res.data)
         users=Object.entries(ans).map(entry=>entry[1])
-        console.log(users)
+        //console.log(users)
       })
       .catch((err)=>{
         console.log(err)
@@ -52,7 +52,7 @@ export default function LoginForm({props}){
       setEmail("")
       setPassword("")
       setErrors({})
-      let userValid=0;
+      let userValid=1;
       users.map((user)=>{
         if(user.email === email && user.password === password){
           userValid=1;
