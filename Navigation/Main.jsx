@@ -27,7 +27,9 @@ export default function Main(props){
                                source={require('../images/dashboard.png')}
                             />
                         )
-                    }
+                    },
+                    tabBarActiveTintColor:'black'
+
                 }}
             />
 
@@ -55,7 +57,9 @@ export default function Main(props){
                                source={require('../images/expenses.png')}
                             />
                         )
-                    }
+                    },
+                    tabBarActiveTintColor:'black'
+
                 }}
             />
             <Tab.Screen 
@@ -74,7 +78,8 @@ export default function Main(props){
                                source={require('../images/user.png')}
                             />
                         )
-                    }
+                    },
+                    tabBarActiveTintColor:'black'
                 }}
             />
         </Tab.Navigator>
