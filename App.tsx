@@ -7,7 +7,7 @@
 
 import React from 'react';
 import type {PropsWithChildren} from 'react';
-import { useState,useContext , createContext } from 'react';
+import { useState,useContext , createContext ,useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -28,19 +28,43 @@ import Main from './Navigation/Main';
 import Login from './Navigation/Login';
 import AddExpenses from './Navigation/Screens/AddExpenses';
 import EditExpenses from './Navigation/Screens/EditExpenses';
-import UserContext from './Context/Context';
-
-
+import ExpenseContextProvider from './Context/ExpenseContext';
+import UserContext from './Context/UserContext';
+import { ExpenseContext } from './Context/ExpenseContext';
+import { getExpenses } from './seeds/https';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-const Stack=createNativeStackNavigator()
+// url 'https://expensetracker-bb0b9-default-rtdb.firebaseio.com/expenses.json'
+// let ans = res.data
+/* let expenses = Object.entries(ans).map((entry)=>{
+  return {...(entry[1] as object),'id':entry[0]}
+})*/
+
+   
+// ----  top level fetch data not working ---- //
+
 
 //const UserContext = createContext({})
+const Stack=createNativeStackNavigator()
+
 
 function App(): React.JSX.Element {
+  let value=useContext(ExpenseContext)
+
+  /*useEffect(()=>{
+    async function fetchData(){
+      let res:any=await getExpenses()
+      console.log(res)
+      value.setExpenses(res)
+
+    }
+    fetchData()
+    
+  },[])*/
+  
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -48,8 +72,11 @@ function App(): React.JSX.Element {
   };
 
   const [currentUser,setCurrentUser] = useState('')
+ 
+  
   return (
     <UserContext.Provider value={{currentUser,setCurrentUser}} >
+      <ExpenseContextProvider>
       <NavigationContainer>
         <Stack.Navigator>
          
@@ -77,6 +104,7 @@ function App(): React.JSX.Element {
           
         </Stack.Navigator>
       </NavigationContainer>
+      </ExpenseContextProvider>
       </UserContext.Provider>
       
       

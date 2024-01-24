@@ -1,40 +1,71 @@
 import React from "react";
-import { Text } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { Button } from "react-native";
 import { View } from "react-native";
-import { useState } from "react";
 import { FlatList } from "react-native";
 import { StyleSheet } from "react-native";
+import {ExpenseContext} from "../../Context/ExpenseContext";
+import { useContext } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { getExpenses } from "../../seeds/https";
+import { useEffect } from "react";
+
 
 export default function Expenses(props){
-    const [allExpenses,setAllExpenses] = useState([
-        {title:'dosa',recipient:'leo',amount:'100',category:'food',date:'1/21/2024'},
-        {title:'auto',recipient:'white',amount:'60',category:'travel',date:'1/20/2024'},
-        {title:'books',recipient:'taki',amount:'200',category:'utilities',date:'1/15/2024'}
-    ])
+    let value = useContext(ExpenseContext)
+   /*useEffect(()=>{
+        async function fetchData(){
+          let res=await getExpenses()
+          //console.log(res)
+          value.setExpenses(res)
+    
+        }
+        fetchData()
+        
+      },[])*/
+   //console.log(value.expense)
+   function navigateToEdit(item){
+     //console.log(item)
+     props.navigation.navigate('EditExpenses',{data:item})
+   }
+   function remove(data){
+        /*let updatedExpense = value.expense.filter((item)=>{
+            if(item.id !== data.id){
+                return item
+            }
+        })*/
+        //console.log(updatedExpense)
+        value.deleteExpense(value.expense,data.id)
+   }
     return(
-        <View>
-        <Text>Expenses,create list to show expenses</Text>
+       
+        <View style={{flex:1}}>
+        <Text>Expenses</Text>
         <Button title="Add expenses" onPress={()=> props.navigation.navigate('AddExpenses')}/>
         <View style={styles.space}>
             <FlatList 
-            data={allExpenses}
-            renderItem={({item})=>{
-                return(
-                    <View style={styles.item}>
-                        <Text>title-{item.title}</Text>
-                        <Text>recipient-{item.recipient}</Text>
-                        <Text>amount-{item.amount}</Text>
-                        <Text>category-{item.category}</Text>
-                        <Text>date-{item.date}</Text>
-                        <Button title="Edit" onPress={()=>props.navigation.navigate('EditExpenses')}/>
-                    </View>
+                data={value.expense}
+                renderItem={({item})=>{
+                    return(
+                            <View style={styles.item} key={item.id}>
+                            <Text>title-{item.title}</Text>
+                            <Text>recipient-{item.recipient}</Text>
+                            <Text>amount-{item.amount}</Text>
+                            <Text>category-{item.category}</Text>
+                            <Text>date-{item.date}</Text>
+                            <Button 
+                                title="Edit" 
+                                onPress={()=>navigateToEdit(item)}
+                            />
+                            <Button title="Delete" onPress={()=>remove(item)}/>
+                        </View>
                 )
             
         }}
             />
         </View>
         </View>
+       
     )
 }
 
@@ -46,7 +77,8 @@ const styles=StyleSheet.create({
         padding:5
     },
     space:{
-        marginTop:10
+        marginTop:10,
+        marginBottom:50
     }
 
 })

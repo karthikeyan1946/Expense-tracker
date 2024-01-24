@@ -4,11 +4,25 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Dashboard from "./Screens/Dashboard";
 import Expenses from "./Screens/Expenses";
 import Profile from "./Screens/Profile";
+import { ExpenseContext } from "../Context/ExpenseContext";
+import { useContext ,useEffect} from "react";
 
+import { getExpenses } from "../seeds/https";
 
 const Tab=createBottomTabNavigator()
 
 export default function Main(props){
+    let value = useContext(ExpenseContext)
+   useEffect(()=>{
+        async function fetchData(){
+          let res=await getExpenses()
+          //console.log(res)
+          value.setExpenses(res)
+    
+        }
+        fetchData()
+        
+      },[])
     return(
         <Tab.Navigator>
             <Tab.Screen 
