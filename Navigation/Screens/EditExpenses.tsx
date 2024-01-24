@@ -6,7 +6,7 @@ import { StyleSheet } from "react-native";
 import InputForm from "../../components/InputForm";
 import DropDown from "../../components/DropDown";
 import DateInput from "../../components/DateInput";
-import ExpenseContext from "../../Context/ExpenseContext";
+import {ExpenseContext} from "../../Context/ExpenseContext";
 import { useContext } from "react";
 
 
@@ -15,7 +15,7 @@ import { useContext } from "react";
 export default function EditExpenses(props: any){
    
    //console.log(props.route.params)
-   const {expense,setExpense}:any = useContext(ExpenseContext)
+   let value= useContext(ExpenseContext)
    const {data}=props.route.params
    //console.log(data)
     const [editExpense,setEditExpense] = useState({...data})
@@ -32,15 +32,15 @@ export default function EditExpenses(props: any){
     }
     function edit(){
         //console.log(editExpense)
-        //setEditExpense({title:'',recipient:'',amount:'',category:'',date:''})
-        let updatedExpense = expense.map((item: { id: any; })=>{
+        /*setEditExpense({title:'',recipient:'',amount:'',category:'',date:''})
+        let updatedExpense = value.expense.map((item: { id: any; })=>{
             if(item.id === data.id){
                     return editExpense
             }
             return item
-        })
+        })*/
         //console.log(updatedExpense)
-        setExpense([...updatedExpense]) // add unique id to edit the particular expense
+        value.editExpense(value.expense,editExpense)// add unique id to edit the particular expense
         props.navigation.navigate('Expenses')
     }
     return(

@@ -53,13 +53,15 @@ export default function LoginForm({props}){
       setPassword("")
       setErrors({})
       let userValid=1;
+      let currentUser
       users.map((user)=>{
         if(user.email === email && user.password === password){
           userValid=1;
+          currentUser=user.name
         }
       })
       if(userValid){
-        setCurrentUser(email)
+        setCurrentUser(currentUser)
         setInvalid('')
         return 1
 

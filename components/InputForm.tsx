@@ -5,14 +5,24 @@ import { View } from "react-native";
 import { StyleSheet } from "react-native";
 
 export default function InputForm({expense,update}:any){
+  function changeTitle(text: any){
+    update('title',text)
+  } 
+  function changeRecipient(text: any){
+    update('recipient',text)
+  } 
+  function changeAmount(text: any){
+    update('amount',text)
+  } 
+
     return(
         <View>
             <Text style={styles.text}>Title</Text>
-            <TextInput placeholder="Enter Title" style={styles.input} value={expense.title} onChangeText={(text)=>update('title',text)}/>
+            <TextInput placeholder="Enter Title" style={styles.input} value={expense.title} onChangeText={changeTitle}/>
             <Text style={styles.text}>Recipient</Text>
-            <TextInput placeholder="Enter Recipient" style={styles.input} value={expense.recipient} onChangeText={(text)=>update('recipient',text)}/>
+            <TextInput placeholder="Enter Recipient" style={styles.input} value={expense.recipient} onChangeText={changeRecipient}/>
             <Text style={styles.text}>Amount</Text>
-            <TextInput placeholder="Enter Amount" keyboardType="numeric" style={styles.input} value={expense.amount} onChangeText={(text)=>update('amount',text)}/>
+            <TextInput placeholder="Enter Amount" keyboardType="numeric" style={styles.input} value={expense.amount} onChangeText={changeAmount}/>
         </View>
     )
 }

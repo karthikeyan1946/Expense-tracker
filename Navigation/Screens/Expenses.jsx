@@ -4,27 +4,38 @@ import { Button } from "react-native";
 import { View } from "react-native";
 import { FlatList } from "react-native";
 import { StyleSheet } from "react-native";
-import ExpenseContext from "../../Context/ExpenseContext";
+import {ExpenseContext} from "../../Context/ExpenseContext";
 import { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { getExpenses } from "../../seeds/https";
+import { useEffect } from "react";
 
 
 export default function Expenses(props){
-    const {expense,setExpense} = useContext(ExpenseContext)
-   //console.log(expense)
+    let value = useContext(ExpenseContext)
+   /*useEffect(()=>{
+        async function fetchData(){
+          let res=await getExpenses()
+          //console.log(res)
+          value.setExpenses(res)
+    
+        }
+        fetchData()
+        
+      },[])*/
+   //console.log(value.expense)
    function navigateToEdit(item){
      //console.log(item)
      props.navigation.navigate('EditExpenses',{data:item})
    }
    function remove(data){
-        let updatedExpense = expense.filter((item)=>{
+        /*let updatedExpense = value.expense.filter((item)=>{
             if(item.id !== data.id){
                 return item
             }
-        })
-        console.log(updatedExpense)
-        setExpense([...updatedExpense])
+        })*/
+        //console.log(updatedExpense)
+        value.deleteExpense(value.expense,data.id)
    }
     return(
        
@@ -33,7 +44,7 @@ export default function Expenses(props){
         <Button title="Add expenses" onPress={()=> props.navigation.navigate('AddExpenses')}/>
         <View style={styles.space}>
             <FlatList 
-                data={expense}
+                data={value.expense}
                 renderItem={({item})=>{
                     return(
                             <View style={styles.item} key={item.id}>

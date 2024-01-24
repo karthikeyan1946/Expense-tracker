@@ -6,21 +6,21 @@ import { StyleSheet } from "react-native";
 import InputForm from "../../components/InputForm";
 import DropDown from "../../components/DropDown";
 import DateInput from "../../components/DateInput";
-import ExpenseContext from "../../Context/ExpenseContext";
+import {ExpenseContext} from "../../Context/ExpenseContext";
 import { useContext } from "react";
 
 
-export default function AddExpenses(props: { navigation: { navigate: (arg0: string) => void; }; }){
+export default function AddExpenses(props: any){
    //console.log(Date.now())
-    const {expense,setExpense}:any = useContext(ExpenseContext)
+    let value = useContext(ExpenseContext)
     const [addExpense,setAddExpense] = useState({id:'',title:'',recipient:'',amount:'',category:'',date:''})
-    type T = keyof typeof addExpense
+    type addExpenseKey = keyof typeof addExpense
     function update(field: string,text: string){
         //console.log(field,text)
         Object.keys(addExpense).forEach((key)=>{
             
             if(field === key ){
-               addExpense[key as T] =text
+               addExpense[key as addExpenseKey] =text
             }
         })
         setAddExpense({...addExpense})
@@ -28,7 +28,7 @@ export default function AddExpenses(props: { navigation: { navigate: (arg0: stri
     function add(){
          //console.log(addExpense)
          addExpense.id=Date.now().toString()
-         setExpense([...expense,addExpense])
+         value.addExpense(addExpense)
          props.navigation.navigate('Expenses')
          //setAddExpense({title:'',recipient:'',amount:'',category:'',date:''})
     }
