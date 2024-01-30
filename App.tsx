@@ -8,6 +8,9 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import { useState,useContext , createContext ,useEffect} from 'react';
+import { store } from './redux/Store';
+import { Provider } from 'react-redux';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -76,6 +79,7 @@ function App(): React.JSX.Element {
   
   return (
     <UserContext.Provider value={{currentUser,setCurrentUser}} >
+      {/* <Provider store={store}> */}
       <ExpenseContextProvider>
       <NavigationContainer>
         <Stack.Navigator>
@@ -90,7 +94,7 @@ function App(): React.JSX.Element {
            <Stack.Screen
              name="Main"
              component={Main}
-             options={{headerTitle:"App"}}
+             options={{ headerShown:false  }}
           />
           <Stack.Screen
             name="AddExpenses"
@@ -105,6 +109,7 @@ function App(): React.JSX.Element {
         </Stack.Navigator>
       </NavigationContainer>
       </ExpenseContextProvider>
+      {/* </Provider> */}
       </UserContext.Provider>
       
       

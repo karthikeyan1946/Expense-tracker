@@ -29,7 +29,7 @@ export default function Main(props){
                 name="Dashboard" 
                 component={Dashboard} 
                 options={{
-                    headerShown:false,
+                    headerTitle:"Dashboard",
                     tabBarIcon: ({size,focused})=>{
                         return(
                             focused ? <Image
@@ -59,7 +59,7 @@ export default function Main(props){
                 name="Expenses" 
                 component={Expenses} 
                 options={{
-                    headerShown:false,
+                    headerTitle:"Expenses",
                     tabBarIcon: ({size,focused})=>{
                         return(
                             focused ? <Image
@@ -80,7 +80,7 @@ export default function Main(props){
                 name="Profile" 
                 component={Profile} 
                 options={{
-                    headerShown:false,
+                    headerTitle:"Profile",
                     tabBarIcon: ({size,focused})=>{
                         return(
                             focused ? <Image

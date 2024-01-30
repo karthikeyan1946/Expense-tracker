@@ -18,7 +18,7 @@ export default function EditExpenses(props: any){
    let value= useContext(ExpenseContext)
    const {data}=props.route.params
    //console.log(data)
-    const [editExpense,setEditExpense] = useState({...data})
+    const [editExpense,setEditExpense] = useState(data)
     type T = keyof typeof editExpense
     function update(field: string,text: string){
         //console.log(field,text)
@@ -28,6 +28,7 @@ export default function EditExpenses(props: any){
                editExpense[key as T] =text
             }
         })
+        //console.log(editExpense)
         setEditExpense({...editExpense})
     }
     function edit(){

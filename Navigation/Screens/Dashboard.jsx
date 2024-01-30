@@ -27,9 +27,12 @@ export default function Dashboard(props){
         }
     })
     console.log(utilities,food,transportation)
-    utilities=utilities/total
-    transportation/=total
-    food/=total
+    if(total){
+        utilities=utilities/total
+        transportation/=total
+        food/=total
+    }
+    
     
     const widthAndHeight=250
     const series=[utilities,transportation,food]
@@ -39,9 +42,12 @@ export default function Dashboard(props){
         <View>
             <Text>Dashboard</Text>
             <Text>Welcome! {currentUser}</Text>
-            <Text>utilities:skyblue ; transportation:lightgreen ; food:yellow</Text>
             <View style={styles.chart}>
-            <PieChart widthAndHeight={widthAndHeight} series={series} sliceColor={sliceColor}/>
+                {total ? <PieChart widthAndHeight={widthAndHeight} series={series} sliceColor={sliceColor}/> : null}
+            
+            <Text>Food(yellow):-{food*total}</Text>
+            <Text>Transportation(lightgreen):-{transportation*total}</Text>
+            <Text>Utilities(skyblue):-{utilities*total}</Text>
             </View>
 
         </View>
