@@ -5,6 +5,7 @@ import axios from "axios";
 export async function getExpenses(){
     let res=await axios.get('https://expensetracker-bb0b9-default-rtdb.firebaseio.com/expenses.json')
       let ans = res.data
+      if(!ans)return []
       let expenses = Object.entries(ans).map((entry)=>{
         return {...entry[1],'id':entry[0]}
       }) 

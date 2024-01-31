@@ -17,12 +17,12 @@ export const ExpenseContext = createContext({
 
 // create add , edit , delete functions here
 function ExpenseContextProvider({children}:any){
-    let [expense,setExpense]:any = useState([])
-    function setExpenses(expenses:any){
+    const [expense,setExpense] = useState<any>([])
+    /*function setExpenses(expenses:any){
         console.log(expenses)
         setExpense([...expenses])
         //console.log('got')
-    }
+    }*/
     async function addExpense(newExpense:any){
         let id=await postExpenses(newExpense)
         newExpense.id=id.name
@@ -39,7 +39,7 @@ function ExpenseContextProvider({children}:any){
         })
         let response=await putExpenses(editExpense)
         console.log(response)
-        setExpense([...updatedExpense])
+        setExpense(updatedExpense)
     }
     async function deleteExpense(expense:any,id:any){
         let updatedExpense = expense.filter((item: { id: any; })=>{
@@ -49,12 +49,12 @@ function ExpenseContextProvider({children}:any){
         })
         let response=await deleteExpenses(id)
         console.log(response)
-        setExpense([...updatedExpense])
+        setExpense(updatedExpense)
 
     }
     let value={
         expense:expense,
-        setExpenses:setExpenses,
+        setExpenses:setExpense,
         addExpense:addExpense,
         editExpense:editExpense,
         deleteExpense:deleteExpense
